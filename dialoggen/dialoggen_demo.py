@@ -1,22 +1,23 @@
 import argparse
-import torch
-import sys
 import os
+import sys
+
+import torch
+
 # 添加当前命令行运行的目录到 sys.path
-sys.path.append(os.getcwd()+"/dialoggen")
+sys.path.append(os.getcwd() + "/dialoggen")
 
-
-from llava.constants import (
+from dialoggen.llava.constants import (
     IMAGE_TOKEN_INDEX,
     DEFAULT_IMAGE_TOKEN,
     DEFAULT_IM_START_TOKEN,
     DEFAULT_IM_END_TOKEN,
     IMAGE_PLACEHOLDER,
 )
-from llava.conversation import conv_templates, SeparatorStyle
-from llava.model.builder import load_pretrained_model
-from llava.utils import disable_torch_init
-from llava.mm_utils import (
+from dialoggen.llava.conversation import conv_templates
+from dialoggen.llava.model.builder import load_pretrained_model
+from dialoggen.llava.utils import disable_torch_init
+from dialoggen.llava.mm_utils import (
     process_images,
     tokenizer_image_token,
     get_model_name_from_path,
@@ -101,7 +102,8 @@ def eval_model(models,
     else:
         # fomatted input as training data
         image_sizes = [(1024, 1024)]
-        images_tensor = torch.zeros(1, 5, 3, models["image_processor"].crop_size["height"], models["image_processor"].crop_size["width"])
+        images_tensor = torch.zeros(1, 5, 3, models["image_processor"].crop_size["height"],
+                                    models["image_processor"].crop_size["width"])
         images_tensor = images_tensor.to(models["model"].device, dtype=torch.float16)
 
     input_ids = (
@@ -158,7 +160,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path', type=str, default='./ckpts/dialoggen')
     parser.add_argument('--prompt', type=str, default='画一只小猫')
-    parser.add_argument('--image_file', type=str, default=None) # 'images/demo1.jpeg'
+    parser.add_argument('--image_file', type=str, default=None)  # 'images/demo1.jpeg'
     args = parser.parse_args()
 
     query = f"请先判断用户的意图，若为画图则在输出前加入<画图>:{args.prompt}"
@@ -166,7 +168,7 @@ if __name__ == "__main__":
     models = init_dialoggen_model(args.model_path)
 
     res = eval_model(models,
-        query=query,
-        image_file=args.image_file,
-    )
+                     query=query,
+                     image_file=args.image_file,
+                     )
     print(res)
