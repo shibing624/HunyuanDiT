@@ -1,12 +1,9 @@
 import argparse
-import os
 import sys
 
 import torch
 
-# 添加当前命令行运行的目录到 sys.path
-sys.path.append(os.getcwd() + "/dialoggen")
-
+sys.path.append('..')
 from dialoggen.llava.constants import (
     IMAGE_TOKEN_INDEX,
     DEFAULT_IMAGE_TOKEN,
