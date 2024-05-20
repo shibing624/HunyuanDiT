@@ -1,7 +1,9 @@
+import sys
 from pathlib import Path
 
 from loguru import logger
 
+sys.path.append('.')
 from dialoggen.dialoggen_demo import DialogGen
 from hydit.config import get_args
 from hydit.inference import End2End
