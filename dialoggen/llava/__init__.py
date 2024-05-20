@@ -1,1 +1,1 @@
-from dialoggen.llava.model import LlavaLlamaForCausalLM
+from dialoggen.llava.model.language_model.llava_llama import LlavaLlamaForCausalLM
